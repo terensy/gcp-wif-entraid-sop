@@ -134,7 +134,7 @@ sequenceDiagram
 | Entra ID 應用程式 ID（App / Client ID） | `67598759-8f0d-477d-b256-04473b4c6f23` | 在應用程式「屬性」頁複製 |
 | Entra ID 群組 ID（Group Object ID） | `f20f1a8c-1578-48f1-9aac-9d26bd0cd2c1` | 允許使用 Gemini Enterprise 的員工群組，其「物件識別碼」 |
 
-> ⚠️ **原始文件的命名不一致，本版本已統一修正**：原文件在 Phase 2 的指令範例中誤用了舊專案代號 `hncb-id-pool`／`hncbentraid`／`hncb-entra-id-provider`，與這張參數表及後面所有畫面截圖顯示的 `ge-entraid-pool`／`entra-id-provider` 不一致（推測是沿用舊 SOP 模板時忘記全部替換）。本文件後續所有指令已統一改為與參數表一致的名稱，請依照**你自己的命名**填入，不要照抄範例值。
+> ⚠️ **以上為範例表**：表中數值僅為範例，請依照**你自己的命名與環境**填入，不要照抄範例值。
 
 ---
 
