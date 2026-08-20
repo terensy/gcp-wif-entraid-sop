@@ -111,7 +111,7 @@ sequenceDiagram
 
 ### Google Cloud 端
 
-- 一個 GCP **組織（Organization）**，並取得 **GCP Organization ID**（純數字，例如本文件範例中的 `705380188382`）。
+- 一個 GCP **組織（Organization）**，並取得 **GCP Organization ID**（純數字，例如本文件範例中的 `123456789012`）。
 - 一個具備組織層級 **IAM Workforce Pool Admin（`roles/iam.workforcePoolAdmin`）** 角色的帳號 —— 這是 Google 官方文件明確要求的權限，若沒有這個角色，執行 Phase 2 的 `gcloud iam workforce-pools` 指令會直接失敗。
 - 已安裝並登入 [Google Cloud CLI](https://cloud.google.com/sdk/docs/install)（`gcloud init` 完成初始化）。
 - 一個用來測試的 GCP 專案（測試專案 ID），並確認已啟用計費（Billing）。
@@ -126,13 +126,13 @@ sequenceDiagram
 
 | 參數項目 | 範例值（本次部署實際值） | 說明 |
 |---|---|---|
-| GCP 組織 ID | `705380188382` | GCP Organization ID |
+| GCP 組織 ID | `123456789012` | GCP Organization ID |
 | GCP 測試專案 ID | *你的 GCP 測試專案 ID* | 啟用 Gemini API 與指派 IAM 的專案 |
 | GCP WIF 集區 ID（Workforce Pool ID） | `ge-entraid-pool` | 建議全公司統一用小寫英文+連字號，之後不可再重複使用相同名稱（詳見〔疑難排解 錯誤 2〕） |
 | GCP WIF 提供者 ID（Workforce Provider ID） | `entra-id-provider` | 同上，命名越清楚，未來維護越輕鬆 |
-| Entra ID 租戶 ID（Tenant ID） | `545e3a6c-943f-41f0-805d-c204df049f94` | Microsoft Tenant ID，在 Entra 管理中心「概觀」頁可查到 |
-| Entra ID 應用程式 ID（App / Client ID） | `67598759-8f0d-477d-b256-04473b4c6f23` | 在應用程式「屬性」頁複製 |
-| Entra ID 群組 ID（Group Object ID） | `f20f1a8c-1578-48f1-9aac-9d26bd0cd2c1` | 允許使用 Gemini Enterprise 的員工群組，其「物件識別碼」 |
+| Entra ID 租戶 ID（Tenant ID） | `00000000-0000-0000-0000-000000000000` | Microsoft Tenant ID，在 Entra 管理中心「概觀」頁可查到 |
+| Entra ID 應用程式 ID（App / Client ID） | `11111111-1111-1111-1111-111111111111` | 在應用程式「屬性」頁複製 |
+| Entra ID 群組 ID（Group Object ID） | `22222222-2222-2222-2222-222222222222` | 允許使用 Gemini Enterprise 的員工群組，其「物件識別碼」 |
 
 > ⚠️ **以上為範例表**：表中數值僅為範例，請依照**你自己的命名與環境**填入，不要照抄範例值。
 
@@ -329,13 +329,13 @@ gcloud services enable \
 
 ```bash
 gcloud projects add-iam-policy-binding 你的GCP測試專案ID \
-  --member="principalSet://iam.googleapis.com/locations/global/workforcePools/ge-entraid-pool/group/f20f1a8c-1578-48f1-9aac-9d26bd0cd2c1" \
+  --member="principalSet://iam.googleapis.com/locations/global/workforcePools/ge-entraid-pool/group/22222222-2222-2222-2222-222222222222" \
   --role="roles/discoveryengine.agentspaceUser"
 ```
 
 > `roles/discoveryengine.agentspaceUser` 是 Google 官方文件定義的「**Gemini Enterprise 使用者**」角色，用來讓使用者「存取、管理與分享」Gemini Enterprise 應用程式，已對照 [Google 官方 IAM 角色文件](https://docs.cloud.google.com/gemini/enterprise/docs/iam-policy-for-apps) 確認為正確角色名稱。
 >
-> `--member` 裡的 `group/f20f1a8c-...` 要換成〔系統架構參數表〕裡「Entra ID 群組 ID」——這代表「這整個 Microsoft 群組的所有成員」都自動取得這個角色，之後只要在 Microsoft 那邊調整群組成員，GCP 這邊的權限就會自動跟著變動，**不需要每次都重新下指令**。
+> `--member` 裡的 `group/22222222-...` 要換成〔系統架構參數表〕裡「Entra ID 群組 ID」——這代表「這整個 Microsoft 群組的所有成員」都自動取得這個角色，之後只要在 Microsoft 那邊調整群組成員，GCP 這邊的權限就會自動跟著變動，**不需要每次都重新下指令**。
 
 ### 步驟 3：Gemini Enterprise 設定 WIF 驗證
 
